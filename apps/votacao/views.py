@@ -100,7 +100,7 @@ def zeresima(request):
     try:
         user = request.user
         data = Votacao.objects.all()
-        if user.username in ('ejrgeek', 'saymon@dce', 'visita@dce'):
+        if user.is_staff:
             for voto in data:
                 voto.votos = 0
                 voto.save()
@@ -120,7 +120,7 @@ def boletim_urna(request):
     try:
         user = request.user
         data = Votacao.objects.all()
-        if user.username in ('ejrgeek', 'saymon@dce', 'visita@dce'):
+        if user.is_staff:
             return render(request, 'votacao/bu.html', {'data': data, 'hora': timezone.now})
         return render(request, 'votacao/index.html')
     except ObjectDoesNotExist:
