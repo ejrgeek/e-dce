@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
+
+from apps.votacao.views import aluno_login, votacao_page, votar
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
+    path('', aluno_login, name='entrar'),
+    path('votacao/', votacao_page, name='votar'),
+    path('votar/<int:numero>', votar, name='voto'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
