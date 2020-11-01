@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'storages',
+    'apps.candidato',
 ]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
