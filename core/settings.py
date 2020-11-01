@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'storages',
     'apps.candidato',
+    'apps.aluno',
 ]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
