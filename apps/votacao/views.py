@@ -1,8 +1,8 @@
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation, PermissionDenied
 from django.shortcuts import render, redirect
+from django.utils import timezone
 
 from apps.aluno.models import Aluno
 from apps.votacao.models import Votacao
@@ -75,6 +75,42 @@ def votar(request, numero):
         user = User.objects.get(username=user)
         user.delete()
         return render(request, 'votacao/fim.html')
+    except ObjectDoesNotExist:
+        return render(request, 'votacao/404.html')
+    except PermissionDenied:
+        return render(request, 'votacao/403.html')
+    except Exception as e:
+        print(e)
+        return render(request, 'votacao/hmmm.html')
+
+
+def zeresima(request):
+    try:
+        user = request.user
+        data = Votacao.objects.all()
+        if user.username in ('ejrgeek', 'saymon@dce', 'visita@dce'):
+            for voto in data:
+                voto.votos = 0
+                voto.save()
+            return render(request, 'votacao/zeresima.html', {'data': data, 'hora': timezone.now})
+
+        return render(request, 'votacao/index.html')
+    except ObjectDoesNotExist:
+        return render(request, 'votacao/404.html')
+    except PermissionDenied:
+        return render(request, 'votacao/403.html')
+    except Exception as e:
+        print(e)
+        return render(request, 'votacao/hmmm.html')
+
+
+def boletim_urna(request):
+    try:
+        user = request.user
+        data = Votacao.objects.all()
+        if user.username in ('ejrgeek', 'saymon@dce', 'visita@dce'):
+            return render(request, 'votacao/bu.html', {'data': data, 'hora': timezone.now})
+        return render(request, 'votacao/index.html')
     except ObjectDoesNotExist:
         return render(request, 'votacao/404.html')
     except PermissionDenied:

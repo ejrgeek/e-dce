@@ -13,4 +13,4 @@ class Chapa(models.Model):
     foto = models.ImageField(upload_to=upload_foto)
 
     def __str__(self):
-        return f'{self.nome} - {self.numero}'
+        return f'{self.nome}, Número: {self.numero}'

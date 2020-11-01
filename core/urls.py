@@ -18,11 +18,13 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 
-from apps.votacao.views import aluno_login, votacao_page, votar
+from apps.votacao.views import aluno_login, votacao_page, votar, zeresima, boletim_urna
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', aluno_login, name='entrar'),
     path('votacao/', votacao_page, name='votar'),
     path('votar/<int:numero>', votar, name='voto'),
+    path('zeresima/', zeresima, name='zeresima'),
+    path('bu/', boletim_urna, name='bu'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
