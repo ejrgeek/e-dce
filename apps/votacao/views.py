@@ -39,7 +39,6 @@ def aluno_login(request):
         return render(request, 'votacao/403.html')
 
 
-@login_required
 def votacao_page(request):
     try:
         user = request.user
@@ -61,7 +60,6 @@ def votacao_page(request):
         return render(request, 'votacao/403.html')
 
 
-@login_required
 def votar(request, numero):
     try:
         user = request.user
