@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-
 <h1 id="fim" style="position: fixed;
                 top: 45%;
                 left: 45%;
@@ -8,6 +7,12 @@
                 margin-left: -100px;
                 color: #000;
                 font-size: 10em;
-                background: #fff;">PREPARAR DADOS PARA VOTAR</h1>
-
+                background: #fff;">Hmmmmm... Algo de errado não está certo!</h1>
+<script type="text/javascript">
+    window.onload = function() {
+        setTimeout(function () {
+            window.location.href = "../login/";
+        }, 3000);
+    }
+</script>
 {% endblock %}
