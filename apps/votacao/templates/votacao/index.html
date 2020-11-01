@@ -1,10 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
 
-</body>
-</html>
+<div class="col-12">
+
+    <div class="row" style="padding: 1rem ;background-color: #FFD616; height: 6.5rem">
+
+        <div class="col-4">
+            <h1 style="color: #2e4074; text-align: center; font-size: 1.2rem">Bem vindo{% if user.first_name != 'Aluno' %}, {{ user }} {% else %}, Aluno {% endif %}
+            </h1>
+
+        </div>
+
+        <div class="col-4">
+            <h1 style="color: #2e4074; text-align: center; font-size: 1.2rem">Votação para o DCE</h1>
+        </div>
+
+        <div class="col-4">
+            {% if user.first_name != 'Aluno' %}
+                <p>
+                    <button type="button" class="btn btn-primary btn-block btn-sm">Zerésima</button>
+                    <button type="button" class="btn btn-info btn-block btn-sm">Boletim de Urna</button>
+                </p>
+            {% else %}
+                <h1 style="color: #2e4074; text-align: center; font-size: 1.2rem">Voto anônimo</h1>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="col-12">
+    <div class="row">
+        {% for chapa in data %}
+
+            <div class="card bg-light" style="width: 18rem; margin: 2rem">
+                <img class="card-img-top" src="{{chapa.chapa.foto.url}}" alt="Card image cap">
+
+                <div class="card-body">
+                    <h5 class="card-title">Chapa: {{chapa.chapa.nome}}</h5>
+                    <p class="card-text">Número: {{chapa.chapa.numero}}</p>
+                    <a href="{% url 'voto' chapa.chapa.numero %}" type="button" class="btn btn-success btn-block btn-lg" style="color: white">Votar</a>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}

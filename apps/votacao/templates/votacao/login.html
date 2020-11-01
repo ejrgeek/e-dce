@@ -1,0 +1,63 @@
+<!doctype html>
+{% load static %}
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+              crossorigin="anonymous">
+        <style>
+            .bd-placeholder-img {
+                font-size: 1.125rem;
+                text-anchor: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+
+            @media (min-width: 768px) {
+                .bd-placeholder-img-lg {
+                  font-size: 3.5rem;
+                }
+            }
+        </style>
+        <link rel="stylesheet" href="{% static 'css/votacao/login.css' %}">
+        <link rel="shortcut icon" type="image/png" href="{% static 'icon.ico' %}">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <title>e-dce | Autenticação</title>
+    </head>
+
+    <body>
+        <form class="form-signin" method="POST">
+            {% csrf_token %}
+            <img class="mb-4 logo-npj" src="{% static 'img/login-e-dce.png' %}" alt="logo" style="width: 300px">
+            <label for="alunoCpf" class="sr-only">CPF</label>
+            <input type="text" name="alunoCpf" id="alunoCpf" class="form-control" placeholder="CPF do aluno" required autofocus>
+            <label for="alunoMat" class="sr-only">Password</label>
+            <input type="password" name="alunoMat" id="alunoMat" class="form-control" placeholder="Matricula do aluno" required>
+
+            <button class="btn btn-lg btn-info btn-block" type="submit">
+                Acessar votação
+            </button>
+            <p class="mt-5 mb-3 text-muted">
+                Copyrigth © 2020, e-dce -
+                <a href="https://ejrgeek.github.io/">Erlon Dantas</a>
+            </p>
+        </form>
+
+        <!-- JAVASCRIPT -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
+    </body>
+</html>
