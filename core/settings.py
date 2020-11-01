@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'storages',
     'apps.chapa',
     'apps.aluno',
+    'apps.votacao',
 ]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
