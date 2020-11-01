@@ -14,20 +14,32 @@ from apps.votacao.models import Votacao
 def aluno_login(request):
     try:
         if request.method == "POST":
-            aluno_cpf = str(request.POST.get("alunoCpf"))
-            aluno_mat = str(request.POST.get("alunoMat"))
-            aluno = Aluno.objects.get(cpf=aluno_cpf, matricula=aluno_mat)
+            aluno_cpf = request.POST.get("alunoCpf")
+            aluno_mat = request.POST.get("alunoMat")
+
+            print(aluno_cpf)
+            print(aluno_mat)
+
+            aluno = Aluno.objects.get(cpf=aluno_cpf)
+            print(aluno)
             if not aluno.ja_votou:
-                if not User.objects.get(username=request.user.username):
+                user = ''
+                try:
+                    User.objects.get(username=aluno.cpf)
+                except:
+                    pass
+                finally:
                     User.objects.create_user(
                         username=aluno_cpf,
                         password=aluno_mat,
                         first_name='Aluno'
                     )
+
                 user = authenticate(request, username=aluno.cpf, password=aluno_mat)
                 login(request, user)
                 return redirect('votar')
             else:
+                print('ENTROU AQUI')
                 raise PermissionDenied
         else:
             return render(request, 'votacao/login.html')
@@ -47,7 +59,7 @@ def votacao_page(request):
         if user.username in ('ejrgeek', 'saymon@dce', 'visita@dce'):
             return render(request, 'votacao/index.html', {'data': data})
 
-        aluno = Aluno.objects.get(cpf=user)
+        aluno = Aluno.objects.get(cpf=user.username)
         if aluno.ja_votou:
             raise PermissionDenied
 
@@ -65,7 +77,7 @@ def votar(request, numero):
         user = request.user
         chapa = Votacao.objects.get(chapa__numero=numero)
 
-        aluno = Aluno.objects.get(cpf=user)
+        aluno = Aluno.objects.get(cpf=user.username)
         if aluno.ja_votou:
             raise PermissionDenied
         chapa.votos += 1
