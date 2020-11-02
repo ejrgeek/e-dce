@@ -71,14 +71,38 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+
 CSP_DEFAULT_SRC = (
     "'self'",
-    'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
+)
+
+CSP_IMG_SRC = (
+    "'self'",
+    'https://s3.amazonaws.com'
+)
+
+CSP_MEDIA_SRC = (
+    "'self'",
+    'https://s3.amazonaws.com',
+)
+
+CSP_FONT_SRC = (
+    "'self'",
     'https://fonts.googleapis.com/icon?family=Material+Icons',
+    'https://s3.amazonaws.com',
+)
+
+CSP_STYLE_SRC = (
+    "'self'",
+    'https://s3.amazonaws.com',
+    'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',
+)
+
+CSP_SCRIPT_SRC = (
+    "'self'",
     'https://code.jquery.com/jquery-3.3.1.slim.min.js',
     'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js',
     'https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js',
-    'https://s3.amazonaws.com'
 )
 
 SECURE_HSTS_SECONDS = 2592000
