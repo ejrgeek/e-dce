@@ -1,7 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation, PermissionDenied
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils import timezone
 
@@ -13,7 +12,6 @@ from apps.votacao.models import Votacao
 
 
 def aluno_login(request):
-    response = HttpResponse()
     try:
         if request.method == "POST":
             aluno_cpf = request.POST.get("alunoCpf")
@@ -23,7 +21,7 @@ def aluno_login(request):
             if not aluno.ja_votou:
                 try:
                     User.objects.get(username=aluno.cpf)
-                except:
+                except Exception as e:
                     pass
                 finally:
                     User.objects.create_user(
@@ -41,42 +39,34 @@ def aluno_login(request):
         else:
             return render(request, 'votacao/login.html')
     except ObjectDoesNotExist:
-        response = render(request, 'votacao/404.html')
+        return render(request, 'votacao/404.html')
     except SuspiciousOperation:
-        response = render(request, 'votacao/hmmm.html')
+        return render(request, 'votacao/hmmm.html')
     except PermissionDenied:
-        response = render(request, 'votacao/403.html')
-    finally:
-        return response
+        return render(request, 'votacao/403.html')
 
 
 def votacao_page(request):
-    response = HttpResponse()
     try:
         user = request.user
         data = Votacao.objects.all()
 
         if user.username in ('ejrgeek', 'saymon@dce', 'visita@dce'):
-            response = render(request, 'votacao/index.html', {'data': data})
-            return response
+            return render(request, 'votacao/index.html', {'data': data})
 
         aluno = Aluno.objects.get(cpf=user.username)
         if aluno.ja_votou:
             raise PermissionDenied
-        response = render(request, 'votacao/index.html', {'data': data})
-        return response
+        return render(request, 'votacao/index.html', {'data': data})
     except ObjectDoesNotExist:
-        response = render(request, 'votacao/404.html')
+        return render(request, 'votacao/404.html')
     except KeyError:
-        response = render(request, 'votacao/hmmm.html')
+        return render(request, 'votacao/hmmm.html')
     except PermissionDenied:
-        response = render(request, 'votacao/403.html')
-    finally:
-        return response
+        return render(request, 'votacao/403.html')
 
 
 def votar(request, numero):
-    response = HttpResponse()
     try:
         user = request.user
         chapa = Votacao.objects.get(chapa__numero=numero)
@@ -90,20 +80,16 @@ def votar(request, numero):
         aluno.save()
         user = User.objects.get(username=user)
         user.delete()
-        response = render(request, 'votacao/fim.html')
-        return response
+        return render(request, 'votacao/fim.html')
     except ObjectDoesNotExist:
-        response = render(request, 'votacao/404.html')
+        return render(request, 'votacao/404.html')
     except PermissionDenied:
-        response = render(request, 'votacao/403.html')
+        return render(request, 'votacao/403.html')
     except Exception:
-        response = render(request, 'votacao/hmmm.html')
-    finally:
-        return response
+        return render(request, 'votacao/hmmm.html')
 
 
 def zeresima(request):
-    response = HttpResponse()
     try:
         user = request.user
         data = Votacao.objects.all()
@@ -111,35 +97,26 @@ def zeresima(request):
             for voto in data:
                 voto.votos = 0
                 voto.save()
-            response = render(request, 'votacao/zeresima.html', {'data': data, 'hora': timezone.now})
-            return response
-        response = render(request, 'votacao/index.html')
-        return response
+            return render(request, 'votacao/zeresima.html', {'data': data, 'hora': timezone.now})
+        return render(request, 'votacao/index.html')
     except ObjectDoesNotExist:
-        response = render(request, 'votacao/404.html')
+        return render(request, 'votacao/404.html')
     except PermissionDenied:
-        response = render(request, 'votacao/403.html')
+        return render(request, 'votacao/403.html')
     except Exception:
-        response = render(request, 'votacao/hmmm.html')
-    finally:
-        return response
+        return render(request, 'votacao/hmmm.html')
 
 
 def boletim_urna(request):
-    response = HttpResponse()
     try:
         user = request.user
         data = Votacao.objects.all()
         if user.is_staff:
-            response = render(request, 'votacao/bu.html', {'data': data, 'hora': timezone.now})
-            return response
-        response = render(request, 'votacao/index.html')
-        return response
+            return render(request, 'votacao/bu.html', {'data': data, 'hora': timezone.now})
+        return render(request, 'votacao/index.html')
     except ObjectDoesNotExist:
-        response = render(request, 'votacao/404.html')
+        return render(request, 'votacao/404.html')
     except PermissionDenied:
-        response = render(request, 'votacao/403.html')
+        return render(request, 'votacao/403.html')
     except Exception:
-        response = render(request, 'votacao/hmmm.html')
-    finally:
-        return response
+        return render(request, 'votacao/hmmm.html')
