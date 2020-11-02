@@ -6,7 +6,7 @@
     <div class="row" style="padding: 1rem ;background-color: #FFD616; height: 6.5rem">
 
         <div class="col-4">
-            <h1 style="color: #2e4074; text-align: center; font-size: 1.2rem">Bem vindo{% if user.is_staff != 'Aluno' %}, {{ user }} {% else %}, Aluno {% endif %}
+            <h1 style="color: #2e4074; text-align: center; font-size: 1.2rem">Bem vindo{% if user.is_staff %}, {{ user }} {% else %}, Aluno {% endif %}
             </h1>
 
         </div>
