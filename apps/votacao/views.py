@@ -12,18 +12,14 @@ from apps.votacao.models import Votacao
 
 
 def aluno_login(request):
+    response = ''
     try:
         if request.method == "POST":
             aluno_cpf = request.POST.get("alunoCpf")
             aluno_mat = request.POST.get("alunoMat")
 
-            print(aluno_cpf)
-            print(aluno_mat)
-
             aluno = Aluno.objects.get(cpf=aluno_cpf)
-            print(aluno)
             if not aluno.ja_votou:
-                user = ''
                 try:
                     User.objects.get(username=aluno.cpf)
                 except:
@@ -44,35 +40,46 @@ def aluno_login(request):
         else:
             return render(request, 'votacao/login.html')
     except ObjectDoesNotExist:
-        return render(request, 'votacao/404.html')
+        response = render(request, 'votacao/404.html')
     except SuspiciousOperation:
-        return render(request, 'votacao/hmmm.html')
+        response = render(request, 'votacao/hmmm.html')
     except PermissionDenied:
-        return render(request, 'votacao/403.html')
+        response = render(request, 'votacao/403.html')
+    finally:
+        response._csp_exempt = True
+        return response
 
 
 def votacao_page(request):
+    response = ''
     try:
         user = request.user
         data = Votacao.objects.all()
 
         if user.username in ('ejrgeek', 'saymon@dce', 'visita@dce'):
-            return render(request, 'votacao/index.html', {'data': data})
+            response = render(request, 'votacao/index.html', {'data': data})
+            response._csp_exempt = True
+            return response
 
         aluno = Aluno.objects.get(cpf=user.username)
         if aluno.ja_votou:
             raise PermissionDenied
-
-        return render(request, 'votacao/index.html', {'data': data})
+        response = render(request, 'votacao/index.html', {'data': data})
+        response._csp_exempt = True
+        return response
     except ObjectDoesNotExist:
-        return render(request, 'votacao/404.html')
+        response = render(request, 'votacao/404.html')
     except KeyError:
-        return render(request, 'votacao/hmmm.html')
+        response = render(request, 'votacao/hmmm.html')
     except PermissionDenied:
-        return render(request, 'votacao/403.html')
+        response = render(request, 'votacao/403.html')
+    finally:
+        response._csp_exempt = True
+        return response
 
 
 def votar(request, numero):
+    response = ''
     try:
         user = request.user
         chapa = Votacao.objects.get(chapa__numero=numero)
@@ -86,17 +93,22 @@ def votar(request, numero):
         aluno.save()
         user = User.objects.get(username=user)
         user.delete()
-        return render(request, 'votacao/fim.html')
+        response = render(request, 'votacao/fim.html')
+        response._csp_exempt = True
+        return response
     except ObjectDoesNotExist:
-        return render(request, 'votacao/404.html')
+        response = render(request, 'votacao/404.html')
     except PermissionDenied:
-        return render(request, 'votacao/403.html')
-    except Exception as e:
-        print(e)
-        return render(request, 'votacao/hmmm.html')
+        response = render(request, 'votacao/403.html')
+    except Exception:
+        response = render(request, 'votacao/hmmm.html')
+    finally:
+        response._csp_exempt = True
+        return response
 
 
 def zeresima(request):
+    response = ''
     try:
         user = request.user
         data = Votacao.objects.all()
@@ -104,29 +116,41 @@ def zeresima(request):
             for voto in data:
                 voto.votos = 0
                 voto.save()
-            return render(request, 'votacao/zeresima.html', {'data': data, 'hora': timezone.now})
-
-        return render(request, 'votacao/index.html')
+            response = render(request, 'votacao/zeresima.html', {'data': data, 'hora': timezone.now})
+            response._csp_exempt = True
+            return response
+        response = render(request, 'votacao/index.html')
+        response._csp_exempt = True
+        return response
     except ObjectDoesNotExist:
-        return render(request, 'votacao/404.html')
+        response = render(request, 'votacao/404.html')
     except PermissionDenied:
-        return render(request, 'votacao/403.html')
-    except Exception as e:
-        print(e)
-        return render(request, 'votacao/hmmm.html')
+        response = render(request, 'votacao/403.html')
+    except Exception:
+        response = render(request, 'votacao/hmmm.html')
+    finally:
+        response._csp_exempt = True
+        return response
 
 
 def boletim_urna(request):
+    response = ''
     try:
         user = request.user
         data = Votacao.objects.all()
         if user.is_staff:
-            return render(request, 'votacao/bu.html', {'data': data, 'hora': timezone.now})
-        return render(request, 'votacao/index.html')
+            response = render(request, 'votacao/bu.html', {'data': data, 'hora': timezone.now})
+            response._csp_exempt = True
+            return response
+        response = render(request, 'votacao/index.html')
+        response._csp_exempt = True
+        return response
     except ObjectDoesNotExist:
-        return render(request, 'votacao/404.html')
+        response = render(request, 'votacao/404.html')
     except PermissionDenied:
-        return render(request, 'votacao/403.html')
-    except Exception as e:
-        print(e)
-        return render(request, 'votacao/hmmm.html')
+        response = render(request, 'votacao/403.html')
+    except Exception:
+        response = render(request, 'votacao/hmmm.html')
+    finally:
+        response._csp_exempt = True
+        return response
