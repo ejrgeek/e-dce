@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist, SuspiciousOperation, PermissionDenied
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils import timezone
 
@@ -12,8 +13,7 @@ from apps.votacao.models import Votacao
 
 
 def aluno_login(request):
-    response = ''
-    request
+    response = HttpResponse()
     try:
         if request.method == "POST":
             aluno_cpf = request.POST.get("alunoCpf")
@@ -51,7 +51,7 @@ def aluno_login(request):
 
 
 def votacao_page(request):
-    response = ''
+    response = HttpResponse()
     try:
         user = request.user
         data = Votacao.objects.all()
@@ -76,7 +76,7 @@ def votacao_page(request):
 
 
 def votar(request, numero):
-    response = ''
+    response = HttpResponse()
     try:
         user = request.user
         chapa = Votacao.objects.get(chapa__numero=numero)
@@ -103,7 +103,7 @@ def votar(request, numero):
 
 
 def zeresima(request):
-    response = ''
+    response = HttpResponse()
     try:
         user = request.user
         data = Votacao.objects.all()
@@ -126,7 +126,7 @@ def zeresima(request):
 
 
 def boletim_urna(request):
-    response = ''
+    response = HttpResponse()
     try:
         user = request.user
         data = Votacao.objects.all()
