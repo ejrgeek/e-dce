@@ -13,6 +13,7 @@ from apps.votacao.models import Votacao
 
 def aluno_login(request):
     response = ''
+    request
     try:
         if request.method == "POST":
             aluno_cpf = request.POST.get("alunoCpf")
@@ -46,7 +47,6 @@ def aluno_login(request):
     except PermissionDenied:
         response = render(request, 'votacao/403.html')
     finally:
-        response._csp_exempt = True
         return response
 
 
@@ -58,14 +58,12 @@ def votacao_page(request):
 
         if user.username in ('ejrgeek', 'saymon@dce', 'visita@dce'):
             response = render(request, 'votacao/index.html', {'data': data})
-            response._csp_exempt = True
             return response
 
         aluno = Aluno.objects.get(cpf=user.username)
         if aluno.ja_votou:
             raise PermissionDenied
         response = render(request, 'votacao/index.html', {'data': data})
-        response._csp_exempt = True
         return response
     except ObjectDoesNotExist:
         response = render(request, 'votacao/404.html')
@@ -74,7 +72,6 @@ def votacao_page(request):
     except PermissionDenied:
         response = render(request, 'votacao/403.html')
     finally:
-        response._csp_exempt = True
         return response
 
 
@@ -94,7 +91,6 @@ def votar(request, numero):
         user = User.objects.get(username=user)
         user.delete()
         response = render(request, 'votacao/fim.html')
-        response._csp_exempt = True
         return response
     except ObjectDoesNotExist:
         response = render(request, 'votacao/404.html')
@@ -103,7 +99,6 @@ def votar(request, numero):
     except Exception:
         response = render(request, 'votacao/hmmm.html')
     finally:
-        response._csp_exempt = True
         return response
 
 
@@ -117,10 +112,8 @@ def zeresima(request):
                 voto.votos = 0
                 voto.save()
             response = render(request, 'votacao/zeresima.html', {'data': data, 'hora': timezone.now})
-            response._csp_exempt = True
             return response
         response = render(request, 'votacao/index.html')
-        response._csp_exempt = True
         return response
     except ObjectDoesNotExist:
         response = render(request, 'votacao/404.html')
@@ -129,7 +122,6 @@ def zeresima(request):
     except Exception:
         response = render(request, 'votacao/hmmm.html')
     finally:
-        response._csp_exempt = True
         return response
 
 
@@ -140,10 +132,8 @@ def boletim_urna(request):
         data = Votacao.objects.all()
         if user.is_staff:
             response = render(request, 'votacao/bu.html', {'data': data, 'hora': timezone.now})
-            response._csp_exempt = True
             return response
         response = render(request, 'votacao/index.html')
-        response._csp_exempt = True
         return response
     except ObjectDoesNotExist:
         response = render(request, 'votacao/404.html')
@@ -152,5 +142,4 @@ def boletim_urna(request):
     except Exception:
         response = render(request, 'votacao/hmmm.html')
     finally:
-        response._csp_exempt = True
         return response
