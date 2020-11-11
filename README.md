@@ -40,6 +40,20 @@ Depois de criado, você entra no ambiente e roda os comandos
 pip install -r requirements.txt
 ```
 
+Caso você tenha optado por usar PostgreSQL, remova a parte que referente ao banco de dados e adicione isso:
+```
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'nome_do_banco',
+        'USER': 'nome_usuario',
+        'PASSWORD': 'sua_senha',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
+}
+```
+
 Pronto, agora rode os comandos:
 
 ```
@@ -55,4 +69,4 @@ Depois você pode rodar um:
 python manage.py runserver
 ```
 
-A aplicação está no ar (localmente pelo menos rs). Ainda é necessário algumas configurações.
+A aplicação está no ar (localmente pelo menos rs).
