@@ -1,4 +1,4 @@
-# e-dce
+# Projeto e-dce
 
 ### Sistema de votação para Diretório Central dos Estudantes da FAFIC
 
