@@ -1,6 +1,8 @@
 # e-dce
 
-### Sistema de votação para Diretório Central dos Estudantes
+### Sistema de votação para Diretório Central dos Estudantes da FAFIC
+
+Essa é uma versão alternativa e melhorada (em todos os sentidos) de sua versão física: [Votação do DCE](https://fescfafic.edu.br/votacao-do-dce/) e [Urna Eletrônica – Django e Raspberry Pi 3B+](https://erlonbcc.wordpress.com/2020/02/02/urna-eletronica-django-e-raspberry-pi-3bplus/)
 
 Desenvolvido usando apenas Django, com configurações de segurança para garantir uma confiabilidade melhor ao sistema.
 
